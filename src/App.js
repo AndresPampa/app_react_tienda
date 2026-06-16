@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import {NavLink, Routes, Route} from 'react-router-dom';
 import Inicio from './componentes/Inicio';
 import Blog from './componentes/Blog';
 import Tienda from './componentes/Tienda';
 import Error404 from './componentes/Error404';
+import Carrito from './componentes/Carrito';
 
 const App = () =>{
 
@@ -14,6 +15,11 @@ const App = () =>{
     {id: 3, nombre: 'producto 3'},
     {id: 4, nombre: 'producto 4'}
   ];
+
+
+  const [carrito, cambiarCarrito] = useState([]);
+
+
   return (
       <Contenedor>
         <Menu>
@@ -30,7 +36,7 @@ const App = () =>{
           </Routes>
         </main>
         <aside>
-          <h3>SIDE BAR</h3>
+          <Carrito carrito={carrito}/>
         </aside>
       </Contenedor>
   );
