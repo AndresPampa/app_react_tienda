@@ -16,8 +16,41 @@ const App = () =>{
     {id: 4, nombre: 'producto 4'}
   ];
 
-
   const [carrito, cambiarCarrito] = useState([]);
+
+  const agregarProductoAlCarrito = (idProductoAAgregar, nombre) =>{
+    // console.log(idProductoAAgregar, nombre);
+    //si el carrito esta vacio, agregar el producto
+    if(carrito.length === 0){
+      cambiarCarrito([{id: idProductoAAgregar, nombre: nombre, cantidad: 1}]);
+    } else {
+      //si el carrito no esta vacio, verificar si el producto ya existe
+      //si existe, aumentar la cantidad
+      //si no existe, agregar el producto
+      const nuevoCarrito = [...carrito]; //clonar el carrito
+
+      //verificar si el producto ya existe
+      const yaEstaEnCarrito = nuevoCarrito.filter((productoDeCarrito) => {
+        return productoDeCarrito.id === idProductoAAgregar
+      }).length > 0;
+
+      if(yaEstaEnCarrito){
+        //si existe, aumentar la cantidad
+        //buscar el producto en el carrito
+        nuevoCarrito.forEach((productoDeCarrito, index) =>{
+          if(productoDeCarrito.id === idProductoAAgregar){
+            const cantidad = nuevoCarrito[index].cantidad;
+            nuevoCarrito[index] = {id: idProductoAAgregar, nombre: nombre, cantidad: cantidad + 1};
+          }
+        });
+      //De otra forma, agregar el producto al carrito
+      }else{
+        nuevoCarrito.push({id: idProductoAAgregar, nombre: nombre, cantidad: 1});
+      }
+      //por ultimo, actualizar el carrito
+      cambiarCarrito(nuevoCarrito);
+    } 
+  }
 
 
   return (
@@ -32,7 +65,7 @@ const App = () =>{
             <Route path="*" element={<Error404 />}/>
             <Route path="/" element={<Inicio />} />
             <Route path="/blog" element={<Blog />} />
-            <Route path="/tienda" element={<Tienda productos={productos} />} />
+            <Route path="/tienda" element={<Tienda productos={productos} agregarProductoAlCarrito={agregarProductoAlCarrito} />} />
           </Routes>
         </main>
         <aside>

@@ -3,9 +3,6 @@ import styled from "styled-components";
 
 const Carrito = ({carrito}) =>{
 
-    
-
-    console.log(carrito.length)
 
     return (
         <div>
